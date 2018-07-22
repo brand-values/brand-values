@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link class="include" href="http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic" rel="stylesheet" type="text/css">
+
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+
+	<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css">
+
+	<link rel="stylesheet" href="css/index-stylesheet.css">
+
+    <!-- stars -->
+    <style type="text/css">
+            body{
+                margin: 0;
+            }
+            #canvas{
+                display: block;
+                background: #000;
+                margin: 0 auto;
+            }
+        </style>
+
+
+
+
+</head><body class="" id="page-top">
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-custom navbar-fixed-top" role="navigation">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand page-scroll" href="#page-top" id="">
+                    <img src="images/logo.png" style="height: : 15px;">
+                    <!--i class="fa fa-plane"></i>  <span class="light"--> </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">
+                <ul class="nav navbar-nav">
+                    <!-- Hidden li included to remove active class from about link when scrolled up past about section -->
+                    <li class="hidden">
+                        <a href="#page-top"></a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#about">Browse<br>Brands</a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#download">Trendency <br> </a>
+                    </li>
+                    <li>
+                        <a class="page-scroll" href="#contact">Say<br>Hello</a>
+                    </li>
+                </ul>
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container -->
+    </nav>
+
+    <!-- Intro Header -->
+    <header class="intro">
+        <div class="intro-body">
+
+            <!-- stars -->
+
+
+
+
+            <canvas id="canvas"></canvas>
+            <!-- <h1 class="brand-heading">BRAND<br>VALUES<br>EXPLORATION</h1> -->
+        <script>
+
+
+
+            
+
+
+
+
+            function Starry(){
+                this.cxt=canvas.getContext("2d");
+                canvas.width=window.innerWidth;
+                canvas.height=window.innerHeight;
+                this.cW=canvas.width;
+                this.cH=canvas.height;
+                this.num=200;
+                this.data=[];
+            }
+            Starry.prototype={
+                init: function(){
+                    for (var i=0;i<this.num;i++) {
+                        this.data[i]={
+                            x:Math.random()*this.cW,
+                            y:Math.random()*this.cH,
+                            cX:Math.random()*0.6-0.3,
+                            cY:Math.random()*0.6-0.3
+                        };
+                        this.drawCircle(this.data[i].x,this.data[i].y);
+                    }
+                    
+                },
+                drawCircle: function(x,y){
+                    var cxt=canvas.getContext("2d");
+                    cxt.save();
+                    cxt.fillStyle="pink";
+                    cxt.beginPath();
+                    cxt.arc(x,y,1,0,Math.PI*2,false);
+                    cxt.closePath();
+                    cxt.fill();
+                    cxt.restore();
+                },
+                drawLine: function(x1,y1,x2,y2){
+                    var cxt=this.cxt;
+                    var color=cxt.createLinearGradient(x1,y1,x2,y2);
+                    color.addColorStop(0,"yellow");
+                    color.addColorStop(1,"green");
+                    cxt.save();
+                    cxt.strokeStyle=color;
+                    cxt.beginPath();
+                    cxt.moveTo(x1,y1);
+                    cxt.lineTo(x2,y2);
+                    cxt.closePath();
+                    cxt.stroke();
+                    cxt.restore();
+                    
+                },
+                moveCircle: function(){
+                    var self=this;
+                    self.cxt.clearRect(0,0,self.cW,self.cH);
+                    for(var i=0;i<self.num;i++){
+                        self.data[i].x+=self.data[i].cX;
+                        self.data[i].y+=self.data[i].cY;
+                        if(self.data[i].x>self.cW||self.data[i].x<0){
+                            self.data[i].cX=-self.data[i].cX;
+                        }
+                        if(self.data[i].x>self.cH||self.data[i].y<0){
+                            self.data[i].cY=-self.data[i].cY;
+                        }
+                        this.drawCircle(self.data[i].x,self.data[i].y);
+                        for(var j=i+1;j<self.num;j++){
+                            if(Math.pow(self.data[i].x-self.data[j].x,2)
+                            +Math.pow(self.data[i].y-self.data[j].y,2)
+                            <=50*50){
+                                self.drawLine(self.data[i].x,self.data[i].y,
+                                    self.data[j].x,self.data[j].y);
+                            }
+                        }
+                    }
+                }
+            }
+            var starry=new Starry();
+            starry.init();
+            setInterval(function(){starry.moveCircle();},1);
+
+
+
+
+            var context = canvas.getContext("2d");
+            context.fillStyle = "#FFF";
+            // context.fillRect(0,0,800,600);
+
+            //1. 使用`font`设置字体。
+            context.font = "50px Helvetica";
+            //2. 使用`fillStyle`设置字体颜色。
+            context.fillStyle = "#FFFFFF";
+            //3. 使用`fillText()`方法显示字体。
+            context.fillText("《CANVAS--Draw on the Web》",50,300);
+
+
+        </script>
+
+
+
+
+
+
+
+
+            <!-- <div class="container">
+                <div class="row" style="padding-top: 660px">
+                    <div class="col-md-12">
+                        <h1 class="brand-heading"> </h1>
+                        <p class="intro-text"><em class="em"><span style="font-size: 36; font-family: false" class="font-style">   </span></em>
+                        </p>
+                        <a href="#about" class="btn btn-default page-scroll">
+                            <img src="images/see.png">
+                        </a>
+                    </div>
+                </div>
+            </div> -->
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <!-- <section id="about" class="container content-section text-center" style="top: -1px; height: 410px; overflow: hidden; position: relative;">
+
+
+        <section class="col-lg-6" style="text-align: left;">
+            <h3>PURPOSE</h3>
+            <div style="font-weight: lighter;">
+                Visual analytics is "the science of analytical reasoning facilitated by interactive visual interfaces. <br>
+In this project we would try to do the visual analytic and communication design through the research of core values of brands in Best Global brand report 2017.
+            </div>
+        </section>
+
+        <section class="col-lg-6" style="text-align: left;">
+            <h3>VISUALIZATION</h3>
+            <div style="font-weight: lighter;">
+                This general map of core values of each brand can give a stright vision of how the brands's charatrsitc in brand cultures. It aslo demonstrates most frequente Core Values <br>
+Integrity, <br>
+responsibility, <br>
+passion, <br>
+trust, <br>
+teamwork
+            </div>
+        </section>
+
+    </section> -->
+
+    <!-- Download Section -->
+    <section id="download" class="content-section text-center" style="background-color: #FFFFFF; ">
+        <div class="download-section" style="height: 800px">
+            <div class="container">
+                <div class="col-lg-12" id="">
+                    <h1 id="" style="text-align: left; font-size: 90px; color: #141414;">Visual analytics of <br> Brand Core Values</h1>
+                    <p style="font-size: 14px; font-weight: lighter; color: #000000; text-align: left;">Core values of brands are the most important part of a corporates’ culture. Since Jim Collins published the famous “Built to Last: Successful Habits of Visionary Companies”, bunches of companies learns from visionary companies and try to summarize their own core values or other tenets to build a stronger culture.Companies are unique organisms with their own personalities. <br>
+However, the research of core values are still focusing management field. There is not many evidence of trying to think core values as data. What are the core values of each brands trying to reveal, what kind of culture let them have such values. What brand values the companies are building as top brand players? 
+</p>
+                    <!-- <a href="graph-dark.html" class="btn btn-default btn-lg" style="align-content: right; font-family: Helvetica Neue; font-weight: lighter;">Browse Brands</a> -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="container content-section text-left" style="margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px; height: 500px; width: 100%; background-color: #0076FF;">
+
+        <!-- blue section -->
+        <section class="col-lg-4 img-bg"  >
+            <h3>Discover the <br>
+bigpicture of <br> brand values
+</h3>
+        </section>
+
+        <section class="col-lg-4 img-bg">
+            <h3>The tendecy <br> review of  <br> brand values
+</h3>
+        </section>
+
+        <section class="col-lg-4 img-bg">
+            <h3>Visual analytic   <br>
+Atlas <br> integration
+</h3>
+        </section>
+
+
+
+
+        
+    </section>
+
+    <!-- Map Section -->
+
+
+    <!-- Footer -->
+    <footer id="" style="top: 90px; height: 257px; overflow: hidden; position: relative;">
+        <div class="container text-center">
+            <img src="images/logo.png">
+            <p style="padding-bottom: 30px; font-size: 12px; font-weight: lighter; color: #D8D8D8;"><br> Yunxing Liu © 2018. All Rights Reserved. </p>
+        </div>
+    </footer>
+
+<script src="js/jquery.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="https://maps.googleapis.com/maps/api/js"></script>
+<script src="js/jquery-easing.js"></script>
+<script id="main-script" src="js/index-scripts.js"></script>
+</body></html>
