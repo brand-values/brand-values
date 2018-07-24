@@ -53,9 +53,8 @@
 
 
 
-
-
-       <div id="container" style="height: 90%"></div>
+<!-- chart goes here -->
+<div id="container" style="height: 90%"></div>
        <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
        <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/echarts.min.js"></script>
        <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts-gl/echarts-gl.min.js"></script>
@@ -66,65 +65,34 @@
        <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=ZUONbpqGBsYGXNIYHicvbAbM"></script>
        <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/echarts/extension/bmap.min.js"></script>
        <script type="text/javascript" src="http://echarts.baidu.com/gallery/vendors/simplex.js"></script>
-       <script src="dark.js"></script>
-       <script src="walden.js"></script>
+<script src="walden.js"></script>
 
        <script type="text/javascript">
 var dom = document.getElementById("container");
-var myChart = echarts.init(dom, 'walden');
+var myChart = echarts.init(dom,'walden');
 var app = {};
 option = null;
+app.title = 'forced';
+
 myChart.showLoading();
-$.get('forechartsblack for PANDA 1.gexf', function (xml) {
+$.get('force.gexf', function (xml) {
     myChart.hideLoading();
 
     var graph = echarts.dataTool.gexf.parse(xml);
     var categories = [];
-    for (var i = 0; i < 10; i++) {
+    for (var i = 0; i < 9; i++) {
         categories[i] = {
-            name: 'degree ' + i
+            name: '类目' + i
         };
     }
-    categories[10] = {
-      name: "degree >= 10"
-    }
-    /*categories[0] = {name: 'ALCOHOL'};
-    categories[1] = {name: 'APPAREL'};
-    categories[2] = {name: 'AUTOMOTIVE'};
-    categories[3] = {name: 'BEVERAGES'};
-    categories[4] = {name: 'BUSINESS SERVICES'};
-    categories[5] = {name: 'DIVERSIFIED'};
-    categories[6] = {name: 'ELECTRONICS'};
-    categories[7] = {name: 'ENERGY'};
-    categories[8] = {name: 'FINANCIAL SERVICES'};
-    categories[9] = {name: 'FMCG'};
-    categories[10] = {name: 'LOGISTICS'};
-    categories[11] = {name: 'LUXURY'};
-    categories[12] = {name: 'MEDIA'};
-    categories[13] = {name: 'RESTAURANTS'};
-    categories[14] = {name: 'SPORTING GOODS'};
-    categories[15] = {name: 'TECHNOLOGY'};*/
-
-
-
-
     graph.nodes.forEach(function (node) {
         node.itemStyle = null;
+        node.symbolSize = 10;
         node.value = node.symbolSize;
-        //node.symbolSize /= 1.5;
-        node.label = {
-          normal: {
-            show: node.symbolSize > 14
-          }
-          
-          
-        };
-        node.category = node.attributes.degree;
-        if (node.category > 10) 
-          node.category = 10;
-        //node.attributes.id;
-        
-        //node.category = 14;
+        node.category = node.attributes.modularity_class;
+        // Use random x, y
+        node.x = node.y = null;
+        node.draggable = true;
     });
     option = {
         title: {
@@ -140,38 +108,23 @@ $.get('forechartsblack for PANDA 1.gexf', function (xml) {
         //         return a.name;
         //     })
         // }],
-        animationDuration: 1500,
-        animationEasingUpdate: 'quinticInOut',
+        animation: false,
         series : [
             {
-                name: 'Brand Values',
+                name: 'Force',
                 type: 'graph',
-                layout: 'none',
+                layout: 'force',
                 data: graph.nodes,
                 links: graph.links,
                 categories: categories,
                 roam: true,
-                focusNodeAdjacency: true,
-                itemStyle: {
-                    normal: {
-                        borderColor: '#fff',
-                        borderWidth: 1,
-                        shadowBlur: 10,
-                        shadowColor: 'rgba(0, 0, 0, 0.3)'
-                    }
-                },
                 label: {
-                    position: 'right',
-                    formatter: '{b}'
-                },
-                lineStyle: {
-                    color: 'source',
-                    curveness: 0.3
-                },
-                emphasis: {
-                    lineStyle: {
-                        width: 10
+                    normal: {
+                        position: 'right'
                     }
+                },
+                force: {
+                    repulsion: 100
                 }
             }
         ]
@@ -183,6 +136,9 @@ if (option && typeof option === "object") {
     myChart.setOption(option, true);
 }
        </script>
+<!-- chart ends here -->
+
+       
 
 
 <!-- btn see conclusions -->
