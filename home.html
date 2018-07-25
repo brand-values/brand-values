@@ -53,7 +53,7 @@
                         <a class="page-scroll" style="height: 70px;" href="analytics.html">Analytics <br> </a>
                     </li>
                     <li>
-                        <a class="page-scroll" href="#contact">Say<br>Hello</a>
+                        <a class="page-scroll" href="mailto:somacruzer@foxmail.com">Say<br>Hello</a>
                     </li>
                 </ul>
             </div>
@@ -107,7 +107,7 @@
                 drawCircle: function(x,y){
                     var cxt=canvas.getContext("2d");
                     cxt.save();
-                    cxt.fillStyle="pink";
+                    cxt.fillStyle="white";
                     cxt.beginPath();
                     cxt.arc(x,y,1,0,Math.PI*2,false);
                     cxt.closePath();
@@ -117,8 +117,8 @@
                 drawLine: function(x1,y1,x2,y2){
                     var cxt=this.cxt;
                     var color=cxt.createLinearGradient(x1,y1,x2,y2);
-                    color.addColorStop(0,"pink");
-                    color.addColorStop(1,"white");
+                    color.addColorStop(0,"black");
+                    color.addColorStop(1,"blue");
                     cxt.save();
                     cxt.strokeStyle=color;
                     cxt.beginPath();
